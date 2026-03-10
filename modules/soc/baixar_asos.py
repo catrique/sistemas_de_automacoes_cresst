@@ -15,7 +15,6 @@ from services.utils import organizar_asos
 def baixar_asos_por_intervalo_data(data_inicio: str, data_fim: str):
     """Fluxo principal de extração de ASOs do SOC."""
 
-    # 1. Monta o diretório de destino dos downloads
     nome_lote = gerar_nome_pasta(data_inicio, data_fim)
     sub_caminho = os.path.join("Asos", nome_lote)
     diretorio_final = get_workspace(sub_caminho)

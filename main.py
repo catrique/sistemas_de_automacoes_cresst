@@ -3,6 +3,7 @@ from config.loaders import atualizar_token_betha_automatico # Importe a função
 import threading
 
 from views.home_view import HomeView
+from views.report_view import RelatoriosView
 from views.settings_view import SettingsView
 from views.terminal_view import TerminalView
 from views.asos_view import AsosView 
@@ -26,6 +27,7 @@ class App(ctk.CTk):
         
         ctk.CTkButton(self.sidebar, text="Início", command=lambda: self.mostrar_tela("home")).pack(pady=5, padx=10)
         ctk.CTkButton(self.sidebar, text="Baixar ASOs", command=lambda: self.mostrar_tela("asos")).pack(pady=5, padx=10)
+        ctk.CTkButton(self.sidebar, text="Relatórios", command=lambda: self.mostrar_tela("relatorios")).pack(pady=5, padx=10)
         ctk.CTkButton(self.sidebar, text="Credenciais", command=lambda: self.mostrar_tela("config")).pack(pady=5, padx=10)
 
         # --- ÁREA DE CONTEÚDO ---
@@ -51,6 +53,8 @@ class App(ctk.CTk):
             view = SettingsView(self.container)
         elif nome == "asos":
             view = AsosView(self.container)
+        elif nome == "relatorios":
+            view = RelatoriosView(self.container)
         
         if view:
             view.pack(fill="both", expand=True)
