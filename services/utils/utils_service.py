@@ -71,3 +71,6 @@ def gerar_txt_retorno_trabalho(df: pd.DataFrame, pasta_destino: str) -> None:
         f.writelines(f"- {nome}\n" for nome in inaptos) if inaptos else f.write("(Nenhum)\n")
 
     print(f"✅ Lista de retorno salva em: {caminho_txt}")
+
+def data_hoje_formatada():
+    return datetime.now().strftime("%d-%m-%Y")

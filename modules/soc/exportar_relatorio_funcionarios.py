@@ -5,6 +5,7 @@ Orquestra a extração da lista de funcionários do SOC.
 Toda interação com o navegador passa por soc_services ou selenium_services.
 Toda persistência passa por exportar_service.
 """
+
 import os
 import time
 from selenium.webdriver.common.by import By
@@ -24,30 +25,42 @@ from services.soc.relatorios_service import (
     save_to_excel,
     extrair_celulas,
 )
+from services.utils.utils_service import data_hoje_formatada
 
 # ── Configuração de saída ─────────────────────────────────────────────────────
 
-OUTPUT_DIR      = get_workspace(os.path.join("relatorios", "saida"))
-LOG_FILE        = os.path.join(OUTPUT_DIR, "func_soc.xlsx")
-CHECKPOINT_FILE = os.path.join(OUTPUT_DIR, "checkpoint_rel_funcionarios.txt")
+OUTPUT_DIR = get_workspace(os.path.join("relatorios", "saida"))
+LOG_FILE = os.path.join(OUTPUT_DIR, f"funcionarios_soc_{data_hoje_formatada()}.xlsx")
+CHECKPOINT_FILE = os.path.join(
+    OUTPUT_DIR, f"checkpoint_rel_funcionarios_{data_hoje_formatada()}  .txt"
+)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-COLUNAS = ["Página", "Índice", "Código", "Nome", "Unidade",
-           "Setor", "Cargo", "Matrícula", "Situação", "Detalhe do Erro"]
+COLUNAS = [
+    "Página",
+    "Índice",
+    "Código",
+    "Nome",
+    "Unidade",
+    "Setor",
+    "Cargo",
+    "Matrícula",
+    "Situação",
+    "Detalhe do Erro",
+]
 
 SELETORES_FUNCIONARIO = {
-    "Código":    "./td[1]//a",
-    "Nome":      "./td[2]//div[@class='nome-funcionario-registrado']",
-    "Unidade":   "./td[3]",
-    "Setor":     "./td[4]",
-    "Cargo":     "./td[5]",
+    "Código": "./td[1]//a",
+    "Nome": "./td[2]//div[@class='nome-funcionario-registrado']",
+    "Unidade": "./td[3]",
+    "Setor": "./td[4]",
+    "Cargo": "./td[5]",
     "Matrícula": "./td[6]",
-    "Situação":  "./td[7]",
+    "Situação": "./td[7]",
 }
 
 ROWS_XPATH = "//tr[contains(@class, 'cor') and ./td[2]//div[@class='nome-funcionario-registrado']]"
 
-# ── Navegação para o card de funcionários ─────────────────────────────────────
 
 def _navegar_para_funcionarios(driver, wait):
     """Acessa o card de funcionários e dispara a busca sem inativos."""
@@ -59,9 +72,10 @@ def _navegar_para_funcionarios(driver, wait):
     time.sleep(1)
     ActionChains(driver).move_to_element(card).click().perform()
 
-    # Desmarca "Inativos" se estiver marcado
-    xpath_inativo = ("//fieldset[@class='col1']"
-                     "//p[./label[normalize-space()='Inativos']]/input[@type='checkbox']")
+    xpath_inativo = (
+        "//fieldset[@class='col1']"
+        "//p[./label[normalize-space()='Inativos']]/input[@type='checkbox']"
+    )
     try:
         cb = wait.until(EC.element_to_be_clickable((By.XPATH, xpath_inativo)))
         if cb.is_selected():
@@ -69,13 +83,14 @@ def _navegar_para_funcionarios(driver, wait):
     except Exception:
         pass
 
-    wait.until(EC.element_to_be_clickable(
-        (By.XPATH, "//*[@id='socContent']/form[1]/fieldset/p[1]/a/img"))).click()
+    wait.until(
+        EC.element_to_be_clickable(
+            (By.XPATH, "//*[@id='socContent']/form[1]/fieldset/p[1]/a/img")
+        )
+    ).click()
     logger.info("Busca de funcionários iniciada.")
     time.sleep(3)
 
-
-# ── Extração de uma página ────────────────────────────────────────────────────
 
 def _processar_pagina(driver, wait, current_page: int, start_index: int) -> list:
     """Extrai todos os funcionários da página atual. Retorna lista de linhas."""
@@ -106,19 +121,21 @@ def _processar_pagina(driver, wait, current_page: int, start_index: int) -> list
             campos = {k: "N/A" for k in SELETORES_FUNCIONARIO}
             detalhe_erro = str(e).splitlines()[0][:80]
         finally:
-            dados_pagina.append([
-                current_page, index + 1,
-                campos.get("Código",    "N/A"),
-                campos.get("Nome",      "N/A"),
-                campos.get("Unidade",   "N/A"),
-                campos.get("Setor",     "N/A"),
-                campos.get("Cargo",     "N/A"),
-                campos.get("Matrícula", "N/A"),
-                campos.get("Situação",  "N/A"),
-                detalhe_erro,
-            ])
+            dados_pagina.append(
+                [
+                    current_page,
+                    index + 1,
+                    campos.get("Código", "N/A"),
+                    campos.get("Nome", "N/A"),
+                    campos.get("Unidade", "N/A"),
+                    campos.get("Setor", "N/A"),
+                    campos.get("Cargo", "N/A"),
+                    campos.get("Matrícula", "N/A"),
+                    campos.get("Situação", "N/A"),
+                    detalhe_erro,
+                ]
+            )
             save_checkpoint(CHECKPOINT_FILE, current_page, index + 1)
-
     return dados_pagina
 
 
@@ -135,7 +152,6 @@ def executar():
             for _ in range(1, current_page):
                 avancar_pagina_soc(driver, wait)
 
-        # Loop de páginas
         while True:
             dados = _processar_pagina(driver, wait, current_page, start_index)
             save_to_excel(dados, COLUNAS, LOG_FILE)

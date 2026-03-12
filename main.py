@@ -68,7 +68,6 @@ class App(ctk.CTk):
     def _executar_token_silencioso(self):
         try:
             atualizar_token_betha_automatico()
-            # O logger.info dentro da função já vai mostrar o sucesso no terminal
         except Exception as e:
             logger.error(f"Falha na atualização direta: {e}")
 
