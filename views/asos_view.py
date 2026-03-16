@@ -5,21 +5,20 @@ from modules.soc.baixar_asos import baixar_asos_por_intervalo_data
 from services.logger_service import logger
 
 class AsosView(ctk.CTkFrame):
-    def __init__(self, master, **kwargs):
-        super().__init__(master, **kwargs)
+    def __init__(self, master, voltar=None, **kwargs):
+        super().__init__(master, **kwargs) 
+        
+        self.voltar = voltar 
         
         self.configure(fg_color="transparent")
         self.grid_columnconfigure(0, weight=1)
 
-        # Título
         ctk.CTkLabel(self, text="Download de ASOs por Período", 
                      font=ctk.CTkFont(size=22, weight="bold")).pack(pady=(20, 10))
 
-        # Card Central
         self.card = ctk.CTkFrame(self, corner_radius=15)
         self.card.pack(pady=10, padx=40, fill="x")
 
-        # Inputs de Data
         ctk.CTkLabel(self.card, text="Data Inicial:", font=ctk.CTkFont(size=14)).pack(pady=(20, 5))
         self.entry_inicio = ctk.CTkEntry(self.card, placeholder_text="10/03/2026", width=250)
         self.entry_inicio.pack(pady=5)
@@ -28,13 +27,11 @@ class AsosView(ctk.CTkFrame):
         self.entry_fim = ctk.CTkEntry(self.card, placeholder_text="10/03/2026", width=250)
         self.entry_fim.pack(pady=5)
 
-        # Texto explicativo
         self.label_info = ctk.CTkLabel(self.card, 
                                        text="O robô irá acessar o SOCGED, filtrar por ASO\ne descarregar todos os arquivos do período.",
                                        font=ctk.CTkFont(size=12), text_color="gray")
         self.label_info.pack(pady=20)
 
-        # --- BOTÃO DE CONFIRMAÇÃO (O que estava faltando) ---
         self.btn_confirmar = ctk.CTkButton(
             self, 
             text="🚀 Iniciar Download", 
@@ -45,6 +42,9 @@ class AsosView(ctk.CTkFrame):
         )
         self.btn_confirmar.pack(pady=30)
 
+        if self.voltar:
+            ctk.CTkButton(self, text="⬅ Voltar", command=self.voltar).pack(pady=10)
+
     def executar_download(self):
         data_i = self.entry_inicio.get().strip()
         data_f = self.entry_fim.get().strip()
@@ -53,10 +53,8 @@ class AsosView(ctk.CTkFrame):
             messagebox.showwarning("Atenção", "Por favor, preencha ambas as datas.")
             return
 
-        # Bloqueia o botão para evitar cliques múltiplos
         self.btn_confirmar.configure(state="disabled", text="Processando...")
         
-        # Dispara em Thread para não travar a interface
         threading.Thread(target=self._worker, args=(data_i, data_f), daemon=True).start()
 
     def _worker(self, data_i, data_f):

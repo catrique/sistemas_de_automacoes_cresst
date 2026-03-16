@@ -35,14 +35,12 @@ class HomeView(ctk.CTkFrame):
         self._app = app
         self.configure(fg_color="transparent")
 
-        # Título
         ctk.CTkLabel(
             self,
             text="Bem-vindo ao GRS Automação",
             font=ctk.CTkFont(size=26, weight="bold"),
         ).pack(pady=(30, 40))
 
-        # Grade de cards 2x2
         grid = ctk.CTkFrame(self, fg_color="transparent")
         grid.pack(expand=True)
 
@@ -63,7 +61,6 @@ class HomeView(ctk.CTkFrame):
         frame.grid(row=row, column=col, padx=18, pady=18, sticky="nsew")
         frame.grid_propagate(False)
 
-        # Conteúdo centralizado
         inner = ctk.CTkFrame(frame, fg_color="transparent")
         inner.place(relx=0.5, rely=0.5, anchor="center")
 

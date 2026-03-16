@@ -8,7 +8,6 @@ import json
 import os
 from collections import defaultdict
 
-# Caminho fixo: config/ na raiz do projeto
 _BASE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 SECRETARIAS_JSON = os.path.join(_BASE, "config", "secretarias.json")
 

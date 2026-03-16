@@ -18,7 +18,6 @@ class BaseRelatorioView(ctk.CTkFrame):
         self._voltar = voltar
         self.configure(fg_color="transparent")
 
-        # ── Cabeçalho ─────────────────────────────────────────────────────────
         header = ctk.CTkFrame(self, fg_color="transparent")
         header.pack(fill="x", pady=(10, 0), padx=20)
 
@@ -38,7 +37,6 @@ class BaseRelatorioView(ctk.CTkFrame):
             font=ctk.CTkFont(size=22, weight="bold"),
         ).pack(side="left", padx=14)
 
-        # ── Card central ──────────────────────────────────────────────────────
         self.card = ctk.CTkFrame(self, corner_radius=15)
         self.card.pack(fill="x", padx=60, pady=30)
 
@@ -48,7 +46,6 @@ class BaseRelatorioView(ctk.CTkFrame):
         """Subclasses implementam aqui os widgets do card."""
         raise NotImplementedError
 
-    # ── Helpers para subclasses ───────────────────────────────────────────────
 
     def _rodar_em_thread(self, btn, texto_processando: str, fn, *args):
         btn.configure(state="disabled", text=texto_processando)

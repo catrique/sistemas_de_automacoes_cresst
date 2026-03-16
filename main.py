@@ -16,22 +16,18 @@ class App(ctk.CTk):
         self.title("GRS Automação - Divinópolis")
         self.geometry("1100x750")
 
-        # Sem sidebar — layout de coluna única
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=0)
 
-        # Área de conteúdo ocupa toda a largura
         self.container = ctk.CTkFrame(self, corner_radius=0, fg_color="transparent")
         self.container.grid(row=0, column=0, padx=30, pady=20, sticky="nsew")
 
-        # Terminal fixo na parte inferior
         self.terminal = TerminalView(self, height=180)
         self.terminal.grid(row=1, column=0, padx=30, pady=(0, 20), sticky="nsew")
 
         self.mostrar_tela("home")
 
-    # ── Roteamento ────────────────────────────────────────────────────────────
 
     def mostrar_tela(self, nome: str):
         for widget in self.container.winfo_children():
@@ -53,7 +49,6 @@ class App(ctk.CTk):
             view = SettingsView(self.container,
                                 voltar=lambda: self.mostrar_tela("home"))
 
-        # ── Telas individuais de relatório ────────────────────────────────────
         elif nome == "rel_atestados":
             from views.reports.medical_certificate_view import AtestadosView
             view = AtestadosView(self.container,
@@ -82,7 +77,6 @@ class App(ctk.CTk):
         if view:
             view.pack(fill="both", expand=True)
 
-    # ── Token Betha em background ─────────────────────────────────────────────
 
     def disparar_token_direto(self):
         logger.info("Iniciando atualização do token em segundo plano...")

@@ -22,7 +22,6 @@ class PorSecretariaView(BaseRelatorioView):
             font=ctk.CTkFont(size=13), text_color="gray",
         ).pack(pady=(24, 10))
 
-        # Código selecionado
         frame_cod = ctk.CTkFrame(self.card, fg_color="transparent")
         frame_cod.pack(fill="x", padx=30, pady=(0, 8))
         ctk.CTkLabel(frame_cod, text="Código selecionado:",
@@ -30,13 +29,11 @@ class PorSecretariaView(BaseRelatorioView):
         self._entry_cod = ctk.CTkEntry(frame_cod, width=130, placeholder_text="02.18")
         self._entry_cod.pack(side="left", padx=(10, 0))
 
-        # Busca
         self._entry_busca = ctk.CTkEntry(
             self.card, placeholder_text="Digite parte do nome para filtrar...", width=420)
         self._entry_busca.pack(padx=30, pady=(0, 6))
         self._entry_busca.bind("<KeyRelease>", self._filtrar)
 
-        # Listbox
         frame_lista = ctk.CTkFrame(self.card, fg_color="transparent")
         frame_lista.pack(fill="x", padx=30, pady=(0, 16))
 

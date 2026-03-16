@@ -31,15 +31,13 @@ def iniciar_driver(diretorio_customizado: str = None):
             "download.prompt_for_download": False,
             "download.directory_upgrade": True,
             "safebrowsing.enabled": True,
-            "plugins.always_open_pdf_externally": True,  # Força download em vez de abrir no browser
+            "plugins.always_open_pdf_externally": True, 
         }
         options.add_experimental_option("prefs", prefs)
 
     options.add_argument("--start-maximized")
     options.add_argument("--log-level=3")
 
-    # Se precisar de proxy, descomente a linha abaixo:
-    # configurar_proxy_options(options)
 
     service = Service(ChromeDriverManager().install())
     return webdriver.Chrome(service=service, options=options)
