@@ -54,11 +54,9 @@ class ConfigLoader:
             return None
 
 class Endpoint(Enum):
-    # Betha - URLs Principais
     BETHA_BASE = ("betha", "api", "base_url")
     BETHA_LOGIN = ("betha", "api", "url_login")
     
-    # Betha - Lista de Endpoints Específicos
     BETHA_ATESTADOS = ("betha", "api", "endpoints", "atestados")
     BETHA_MATRICULA_ESOCIAL = ("betha", "api", "endpoints", "matricula_esocial")
     BETHA_LISTAGEM_MATRICULA = ("betha", "api", "endpoints", "listagem_matricula")
@@ -73,9 +71,11 @@ class Endpoint(Enum):
     BETHA_PROFISSIONAL = ("betha", "api", "endpoints", "profissional")
     BETHA_ASO = ("betha", "api", "endpoints", "aso")
     BETHA_ANEXO = ("betha", "api", "endpoints", "anexo")
-    BETHA_ASO_FORMULARIO = ("betha", "api", "endpoints", "aso_formulario")
+    BETHA_ASO_FORMULARIO = ("betha", "api", "endpoints", "aso_formulario"),
+    ESOCIAL_PENDENTES         = ("betha", "api", "esocial", "endpoints", "pendentes")
+    ESOCIAL_HISTORICO_DOMINIO = ("betha", "api", "esocial", "endpoints", "historico_dominio")
+    ESOCIAL_REVALIDAR         = ("betha", "api", "esocial", "endpoints", "revalidar")
 
-    # SOC
     SOC_URL = ("soc", "URL_SOC")
 
 def get_workspace(subpasta: str = None) -> str:
@@ -181,7 +181,6 @@ def login_betha() -> dict:
     """
     Retorna o objeto de login para o sistema Betha descriptografado.
     """
-    # Busca os valores criptografados no caminho: betha -> user -> admin
     user_hash = get_config("betha", "user", "admin", "LOGIN")
     pass_hash = get_config("betha", "user", "admin", "PASSWORD")
     
@@ -194,7 +193,6 @@ def login_soc() -> dict:
     """
     Retorna o objeto de login para o sistema SOC descriptografado.
     """
-    # Busca os valores criptografados no caminho: soc -> user -> admin
     user_hash = get_config("soc", "user", "admin", "LOGIN")
     pass_hash = get_config("soc", "user", "admin", "PASSWORD")
     senha_hash = get_config("soc", "user", "admin", "SENHA_VIRTUAL")
@@ -288,7 +286,6 @@ def atualizar_token_betha_automatico():
         token_capturado = None
         user_access_capturado = None
 
-        # Tenta capturar o token nos logs de rede (4 tentativas)
         for i in range(4):
             logger.info(f"Buscando token na rede... tentativa {i+1}")
             time.sleep(5)
@@ -309,7 +306,6 @@ def atualizar_token_betha_automatico():
         if not token_capturado:
             raise Exception("Não foi possível interceptar o token de autorização.")
 
-        # Salva os dados capturados
         update_settings("betha,api,authorization", str(token_capturado).strip())
         update_settings("betha,api,user_access", str(user_access_capturado).strip())
         logger.info("✅ Token Betha atualizado com sucesso!")

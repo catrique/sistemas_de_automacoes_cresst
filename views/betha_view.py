@@ -13,8 +13,6 @@ from services.utils.secretarias_service import (
 from services.logger_service import logger
 
 
-# ── Widget auxiliar: Card colapsável ─────────────────────────────────────────
-
 class CardColapsavel(ctk.CTkFrame):
     """Cabeçalho clicável — conteúdo oculto até expandir."""
 
@@ -55,8 +53,6 @@ class CardColapsavel(ctk.CTkFrame):
     def corpo(self) -> ctk.CTkFrame:
         return self._corpo
 
-
-# ── Widget auxiliar: Seletor de Secretaria ───────────────────────────────────
 
 class SeletorSecretaria(ctk.CTkFrame):
     """
@@ -153,8 +149,6 @@ class SeletorSecretaria(ctk.CTkFrame):
         threading.Thread(target=self._buscar_da_api, daemon=True).start()
 
 
-# ── View principal ────────────────────────────────────────────────────────────
-
 class BethaView(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
@@ -174,8 +168,6 @@ class BethaView(ctk.CTkFrame):
         self._montar_card_funcionarios_secretaria()
         self._montar_card_atualizar_secretarias()
 
-    # ── Controle de abertura única ────────────────────────────────────────────
-
     def _ao_expandir(self, card_aberto: CardColapsavel):
         for card in self._cards:
             if card is not card_aberto and card._expandido:
@@ -189,8 +181,6 @@ class BethaView(ctk.CTkFrame):
         card.pack(fill="x", padx=10, pady=6)
         self._cards.append(card)
         return card
-
-    # ── Card: Afastamentos ────────────────────────────────────────────────────
 
     def _montar_card_afastamentos(self):
         card = self._adicionar_card("Relatório de Afastamentos", "📄")
@@ -211,8 +201,6 @@ class BethaView(ctk.CTkFrame):
         )
         self._btn_afastamento.pack(anchor="w")
 
-    # ── Card: Atestados ───────────────────────────────────────────────────────
-
     def _montar_card_atestados(self):
         card = self._adicionar_card("Relatório de Atestados", "🏥")
         corpo = card.corpo
@@ -231,8 +219,6 @@ class BethaView(ctk.CTkFrame):
             command=self._iniciar_atestados,
         )
         self._btn_atestado.pack(anchor="w")
-
-    # ── Card: Funcionários por Secretaria ─────────────────────────────────────
 
     def _montar_card_funcionarios_secretaria(self):
         card = self._adicionar_card("Funcionários por Secretaria", "🏛️")
@@ -261,8 +247,6 @@ class BethaView(ctk.CTkFrame):
         )
         self._btn_secretaria.pack(anchor="w")
 
-    # ── Card: Atualizar Secretarias ───────────────────────────────────────────
-
     def _montar_card_atualizar_secretarias(self):
         card = self._adicionar_card("Atualizar Mapa de Secretarias", "🔄")
         corpo = card.corpo
@@ -279,7 +263,6 @@ class BethaView(ctk.CTkFrame):
         )
         self._btn_secretarias.pack(anchor="w")
 
-    # ── Workers ───────────────────────────────────────────────────────────────
 
     def _iniciar_afastamentos(self):
         nomes = self._entry_afastamento.get().strip()

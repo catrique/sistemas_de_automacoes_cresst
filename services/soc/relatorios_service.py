@@ -14,8 +14,6 @@ class SessionExpired(Exception):
     pass
 
 
-# ── Checkpoint ────────────────────────────────────────────────────────────────
-
 def load_checkpoint(checkpoint_file: str) -> tuple[int, int]:
     """Lê página e índice salvos. Retorna (1, 0) se não existir."""
     if os.path.exists(checkpoint_file):
@@ -39,8 +37,6 @@ def clear_checkpoint(checkpoint_file: str) -> None:
         logger.info("Checkpoint limpo.")
 
 
-# ── Persistência Excel ────────────────────────────────────────────────────────
-
 def save_to_excel(log_data: list, colunas: list, log_file: str) -> None:
     """Acumula dados no Excel existente (ou cria novo se não existir)."""
     if not log_data:
@@ -60,8 +56,6 @@ def save_to_excel(log_data: list, colunas: list, log_file: str) -> None:
     except Exception as e:
         logger.error(f"Erro ao salvar Excel: {e}")
 
-
-# ── Extração de linha de tabela ───────────────────────────────────────────────
 
 def extrair_celulas(row_element, seletores: dict) -> dict:
     """

@@ -25,16 +25,12 @@ def baixar_asos_por_intervalo_data(data_inicio: str, data_fim: str):
         logger.info(f"🚀 Iniciando download de ASOs: {data_inicio} a {data_fim}")
         logger.info(f"📁 Destino dos arquivos: {diretorio_final}")
 
-        # 2. Abre o Chrome já apontando para a pasta correta, faz login no SOC
         driver, wait = fluxo_acesso_completo_soc(diretorio_customizado=diretorio_final)
 
-        # 3. Acessa o SOCGED e filtra pelo tipo ASO
         navegar_para_socged(driver, wait)
 
-        # 4. Aplica o filtro de datas
         aplicar_filtro_data(driver, wait, data_inicio, data_fim)
 
-        # 5. Percorre todas as páginas de resultados e baixa os PDFs
         pagina = 1
         while True:
             logger.info(f"📄 Processando página {pagina}...")
@@ -52,7 +48,6 @@ def baixar_asos_por_intervalo_data(data_inicio: str, data_fim: str):
         if driver:
             driver.quit()
 
-        # 6. Organiza e renomeia os PDFs baixados, gerando o relatório Excel
         print(f"\n🔄 Organizando arquivos em: {diretorio_final}")
         organizar_asos.executar(diretorio_especifico=diretorio_final)
 

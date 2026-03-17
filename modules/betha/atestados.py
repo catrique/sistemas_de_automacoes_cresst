@@ -1,8 +1,3 @@
-"""
-modules/betha/atestados.py
-
-Gera relatório Excel de atestados por nome de funcionário.
-"""
 import os
 import pandas as pd
 from datetime import datetime

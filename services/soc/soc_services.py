@@ -126,7 +126,6 @@ def baixar_todos_os_asos_da_pagina(driver, wait):
             fechar_modal_arquivos(driver)
             voltar_para_frame_principal(driver, wait)
 
-            # Re-localiza o botão para evitar StaleElementReferenceException
             botoes = driver.find_elements(By.XPATH, "//a[img[@id='det']]")
             botao = botoes[i]
 

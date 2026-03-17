@@ -1,8 +1,3 @@
-"""
-modules/betha/afastamentos.py
-
-Gera relatório Excel de afastamentos por nome de funcionário.
-"""
 import os
 import pandas as pd
 from datetime import datetime

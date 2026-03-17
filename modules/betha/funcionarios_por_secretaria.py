@@ -1,8 +1,3 @@
-"""
-modules/betha/funcionarios_por_secretaria.py
-
-Gera relatório Excel de funcionários filtrados por secretaria/lotação.
-"""
 import os
 import pandas as pd
 from datetime import date

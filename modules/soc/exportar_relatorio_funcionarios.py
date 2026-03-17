@@ -1,11 +1,3 @@
-"""
-modules/soc/exportar_lista_funcionarios.py
-
-Orquestra a extração da lista de funcionários do SOC.
-Toda interação com o navegador passa por soc_services ou selenium_services.
-Toda persistência passa por exportar_service.
-"""
-
 import os
 import time
 from selenium.webdriver.common.by import By
@@ -27,7 +19,6 @@ from services.soc.relatorios_service import (
 )
 from services.utils.utils_service import data_hoje_formatada
 
-# ── Configuração de saída ─────────────────────────────────────────────────────
 
 OUTPUT_DIR = get_workspace(os.path.join("relatorios", "saida"))
 LOG_FILE = os.path.join(OUTPUT_DIR, f"funcionarios_soc_{data_hoje_formatada()}.xlsx")

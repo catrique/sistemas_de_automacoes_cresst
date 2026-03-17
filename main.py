@@ -74,6 +74,15 @@ class App(ctk.CTk):
             view = AtualizarSecretariasView(self.container,
                                             voltar=lambda: self.mostrar_tela("relatorios"))
 
+        elif nome == "esocial":
+            from views.esocial_view import EsocialView
+            view = EsocialView(self.container, app=self)
+ 
+        elif nome == "esocial_revalidar_pendentes":
+            from views.esocial.revalidar_pendentes_view import RevalidarPendentesView
+            view = RevalidarPendentesView(self.container,
+                                          voltar=lambda: self.mostrar_tela("esocial"))
+ 
         if view:
             view.pack(fill="both", expand=True)
 

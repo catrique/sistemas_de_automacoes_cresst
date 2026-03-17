@@ -1,6 +1,4 @@
 import customtkinter as ctk
-
-
 CARDS_HOME = [
     {
         "tela":     "asos",
@@ -19,6 +17,12 @@ CARDS_HOME = [
         "emoji":    "🔑",
         "titulo":   "Atualizar Token",
         "descricao":"Captura automática Betha",
+    },
+    {
+        "tela":     "esocial",
+        "emoji":    "📡",
+        "titulo":   "eSocial",
+        "descricao":"Revalidar pendentes\ne outras operações",
     },
     {
         "tela":     "config",

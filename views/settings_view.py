@@ -36,7 +36,7 @@ class SettingsView(ctk.CTkFrame):
             self.main_container, 
             text="💾 Salvar Credenciais", 
             font=ctk.CTkFont(size=15, weight="bold"),
-            fg_color="#28a745", # Verde para indicar ação positiva
+            fg_color="#28a745", 
             hover_color="#218838",
             height=45,
             width=200,

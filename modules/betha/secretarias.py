@@ -1,6 +1,4 @@
 """
-modules/betha/secretarias.py
-
 Busca as lotações na API Betha e salva o dicionário de secretarias
 como JSON em workspace/relatorios/secretarias.json.
 """
