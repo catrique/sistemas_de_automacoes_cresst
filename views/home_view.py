@@ -1,34 +1,35 @@
 import customtkinter as ctk
+
 CARDS_HOME = [
     {
-        "tela":     "asos",
-        "emoji":    "⚙️",
-        "titulo":   "Baixar ASOs",
-        "descricao":"Download por período",
+        "tela": "asos",
+        "emoji": "⚙️",
+        "titulo": "Baixar ASOs",
+        "descricao": "Download por período",
     },
     {
-        "tela":     "relatorios",
-        "emoji":    "📊",
-        "titulo":   "Relatórios",
-        "descricao":"Atestados, afastamentos,\nfuncionários e mais",
+        "tela": "relatorios",
+        "emoji": "📊",
+        "titulo": "Relatórios",
+        "descricao": "Atestados, afastamentos,\nfuncionários e mais",
     },
     {
-        "tela":     "token",
-        "emoji":    "🔑",
-        "titulo":   "Atualizar Token",
-        "descricao":"Captura automática Betha",
+        "tela": "token",
+        "emoji": "🔑",
+        "titulo": "Atualizar Token",
+        "descricao": "Captura automática Betha",
     },
     {
-        "tela":     "esocial",
-        "emoji":    "📡",
-        "titulo":   "eSocial",
-        "descricao":"Revalidar pendentes\ne outras operações",
+        "tela": "esocial",
+        "emoji": "📡",
+        "titulo": "eSocial",
+        "descricao": "Revalidar pendentes\ne outras operações",
     },
     {
-        "tela":     "config",
-        "emoji":    "⚙️",
-        "titulo":   "Configurações",
-        "descricao":"Gerenciar usuários/senhas",
+        "tela": "config",
+        "emoji": "⚙️",
+        "titulo": "Configurações",
+        "descricao": "Gerenciar usuários/senhas",
     },
 ]
 
@@ -59,7 +60,8 @@ class HomeView(ctk.CTkFrame):
         frame = ctk.CTkFrame(
             parent,
             corner_radius=16,
-            width=240, height=140,
+            width=240,
+            height=140,
             cursor="hand2",
         )
         frame.grid(row=row, column=col, padx=18, pady=18, sticky="nsew")

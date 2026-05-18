@@ -82,7 +82,6 @@ class App(ctk.CTk):
             from views.esocial.revalidar_pendentes_view import RevalidarPendentesView
             view = RevalidarPendentesView(self.container,
                                           voltar=lambda: self.mostrar_tela("esocial"))
- 
         if view:
             view.pack(fill="both", expand=True)
 

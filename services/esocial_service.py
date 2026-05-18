@@ -42,7 +42,7 @@ def buscar_pendentes(limit: int = 1000) -> list:
         'or configuracaoDominio in ("655225c404c3c5000181bbae") '
         'or configuracaoDominio in ("655225c404c3c5000181bbb6") '
         'or configuracaoDominio in ("655225c404c3c5000181bbba")) '
-        'and situacao="PENDENTE"'
+        'and (situacaoEsocial= "ERRO" or situacaoEsocial= "PENDENTE")'
     )
 
     todos  = []
@@ -71,8 +71,6 @@ def buscar_pendentes(limit: int = 1000) -> list:
         offset += limit
 
     return todos
-
-
 
 def tratar_pendentes(lista_bruta: list) -> list:
     """
@@ -107,7 +105,7 @@ def buscar_historico_dominio(dominio_id: str, limit: int = 100) -> list:
         "hasNext": "true",
         "limit":   limit,
         "offset":  0,
-        "sort":    "vigencia desc",
+        "sort":    "vigencia asc",
     }
 
     response = requests.get(url=url, headers=_get_headers(), params=params, timeout=30)
@@ -123,9 +121,8 @@ def buscar_historico_dominio(dominio_id: str, limit: int = 100) -> list:
 
 def tratar_historico(lista_bruta: list) -> list:
     """
-    Recebe a lista bruta de buscar_historico_dominio() e retorna uma lista simplificada.
-
-    Cada item: { id, situacaoEsocial, vigencia }
+    Recebe a lista bruta e retorna apenas os itens com 
+    situacaoEsocial igual a ERRO ou PENDENTE.
     """
     return [
         {
@@ -134,6 +131,7 @@ def tratar_historico(lista_bruta: list) -> list:
             "vigencia":        item.get("vigencia"),
         }
         for item in lista_bruta
+        if item.get("situacaoEsocial") in ["ERRO", "PENDENTE"]
     ]
 
 
