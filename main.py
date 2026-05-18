@@ -1,6 +1,5 @@
 import customtkinter as ctk
 import threading
-
 from config.loaders import atualizar_token_betha_automatico
 from views.home_view import HomeView
 from views.settings_view import SettingsView
@@ -73,6 +72,10 @@ class App(ctk.CTk):
             from views.reports.update_secretary_view import AtualizarSecretariasView
             view = AtualizarSecretariasView(self.container,
                                             voltar=lambda: self.mostrar_tela("relatorios"))
+        elif nome == "rel_retorno_ao_trabalho":
+            from views.reports.retorno_ao_trabalho_view import RetornoAoTrabalhoView
+            view = RetornoAoTrabalhoView(self.container,
+                                         voltar=lambda: self.mostrar_tela("relatorios"))
 
         elif nome == "esocial":
             from views.esocial_view import EsocialView

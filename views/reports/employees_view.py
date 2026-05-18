@@ -9,7 +9,6 @@ from services.logger_service import logger
 
 class FuncionariosSocView(BaseRelatorioView):
     TITULO = "Funcionários SOC"
-    EMOJI  = "📋"
 
     def _construir(self):
         ctk.CTkLabel(

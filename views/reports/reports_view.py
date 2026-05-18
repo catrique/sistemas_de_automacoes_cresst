@@ -4,33 +4,33 @@ import customtkinter as ctk
 CARDS_RELATORIOS = [
     {
         "tela":     "rel_atestados",
-        "emoji":    "🏥",
         "titulo":   "Atestados",
         "descricao":"Relatório por nome\ndo funcionário",
     },
     {
         "tela":     "rel_afastamentos",
-        "emoji":    "📄",
         "titulo":   "Afastamentos",
         "descricao":"Relatório por nome\ndo funcionário",
     },
     {
         "tela":     "rel_por_secretaria",
-        "emoji":    "🏛️",
         "titulo":   "Por Secretaria",
         "descricao":"Funcionários ativos\npor lotação",
     },
     {
         "tela":     "rel_funcionarios_soc",
-        "emoji":    "📋",
         "titulo":   "Funcionários SOC",
         "descricao":"Lista completa\nexportada do SOC",
     },
     {
         "tela":     "rel_atualizar_secretarias",
-        "emoji":    "🔄",
         "titulo":   "Atualizar Secretarias",
         "descricao":"Atualiza mapa de\nlotações Betha",
+    },
+    {
+        "tela":     "rel_retorno_ao_trabalho",
+        "titulo":   "Retorno ao Trabalho",
+        "descricao":"Agendamentos do dia\nexportados do SOC",
     },
 ]
 
@@ -41,9 +41,8 @@ class RelatoriosView(ctk.CTkFrame):
         self._app = app
         self.configure(fg_color="transparent")
 
-        # Cabeçalho
         header = ctk.CTkFrame(self, fg_color="transparent")
-        header.pack(fill="x", pady=(10, 0))
+        header.pack(fill="x", pady=(10, 0), padx=4)
 
         ctk.CTkButton(
             header, text="← Voltar",
@@ -61,7 +60,6 @@ class RelatoriosView(ctk.CTkFrame):
             font=ctk.CTkFont(size=22, weight="bold"),
         ).pack(side="left", padx=14)
 
-        # Grade de cards
         grid = ctk.CTkFrame(self, fg_color="transparent")
         grid.pack(expand=True, pady=24)
 
@@ -76,7 +74,7 @@ class RelatoriosView(ctk.CTkFrame):
         frame = ctk.CTkFrame(
             parent,
             corner_radius=16,
-            width=210, height=140,
+            width=210, height=130,
             cursor="hand2",
         )
         frame.grid(row=row, column=col, padx=14, pady=14, sticky="nsew")
@@ -85,11 +83,9 @@ class RelatoriosView(ctk.CTkFrame):
         inner = ctk.CTkFrame(frame, fg_color="transparent")
         inner.place(relx=0.5, rely=0.5, anchor="center")
 
-        ctk.CTkLabel(inner, text=card["emoji"],
-                     font=ctk.CTkFont(size=30)).pack()
-
         ctk.CTkLabel(inner, text=card["titulo"],
-                     font=ctk.CTkFont(size=15, weight="bold")).pack(pady=(4, 2))
+                     font=ctk.CTkFont(size=15, weight="bold"),
+                     justify="center").pack(pady=(0, 4))
 
         ctk.CTkLabel(inner, text=card["descricao"],
                      font=ctk.CTkFont(size=11),

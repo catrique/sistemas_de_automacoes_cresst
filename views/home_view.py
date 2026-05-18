@@ -2,34 +2,24 @@ import customtkinter as ctk
 
 CARDS_HOME = [
     {
-        "tela": "asos",
-        "emoji": "⚙️",
-        "titulo": "Baixar ASOs",
-        "descricao": "Download por período",
-    },
-    {
-        "tela": "relatorios",
-        "emoji": "📊",
-        "titulo": "Relatórios",
-        "descricao": "Atestados, afastamentos,\nfuncionários e mais",
-    },
-    {
-        "tela": "token",
-        "emoji": "🔑",
-        "titulo": "Atualizar Token",
-        "descricao": "Captura automática Betha",
-    },
-    {
         "tela": "esocial",
-        "emoji": "📡",
         "titulo": "eSocial",
         "descricao": "Revalidar pendentes\ne outras operações",
     },
     {
+        "tela": "asos",
+        "titulo": "ASOs",
+        "descricao": "Download e organização\nde ASOs",
+    },
+    {
+        "tela": "relatorios",
+        "titulo": "Relatórios",
+        "descricao": "Atestados, afastamentos,\nfuncionários e mais",
+    },
+    {
         "tela": "config",
-        "emoji": "⚙️",
         "titulo": "Configurações",
-        "descricao": "Gerenciar usuários/senhas",
+        "descricao": "Credenciais, token\ne preferências",
     },
 ]
 
@@ -42,9 +32,16 @@ class HomeView(ctk.CTkFrame):
 
         ctk.CTkLabel(
             self,
-            text="Bem-vindo ao GRS Automação",
-            font=ctk.CTkFont(size=26, weight="bold"),
-        ).pack(pady=(30, 40))
+            text="GRS Automação",
+            font=ctk.CTkFont(size=28, weight="bold"),
+        ).pack(pady=(30, 6))
+
+        ctk.CTkLabel(
+            self,
+            text="Selecione um módulo para continuar",
+            font=ctk.CTkFont(size=13),
+            text_color="gray",
+        ).pack(pady=(0, 36))
 
         grid = ctk.CTkFrame(self, fg_color="transparent")
         grid.pack(expand=True)
@@ -52,7 +49,7 @@ class HomeView(ctk.CTkFrame):
         COLUNAS = 2
         for i, card in enumerate(CARDS_HOME):
             row, col = divmod(i, COLUNAS)
-            grid.grid_columnconfigure(col, weight=1, minsize=240)
+            grid.grid_columnconfigure(col, weight=1, minsize=260)
             grid.grid_rowconfigure(row, weight=1)
             self._criar_card(grid, card, row, col)
 
@@ -60,8 +57,8 @@ class HomeView(ctk.CTkFrame):
         frame = ctk.CTkFrame(
             parent,
             corner_radius=16,
-            width=240,
-            height=140,
+            width=260,
+            height=130,
             cursor="hand2",
         )
         frame.grid(row=row, column=col, padx=18, pady=18, sticky="nsew")
@@ -72,15 +69,9 @@ class HomeView(ctk.CTkFrame):
 
         ctk.CTkLabel(
             inner,
-            text=card["emoji"],
-            font=ctk.CTkFont(size=30),
-        ).pack()
-
-        ctk.CTkLabel(
-            inner,
             text=card["titulo"],
-            font=ctk.CTkFont(size=16, weight="bold"),
-        ).pack(pady=(4, 2))
+            font=ctk.CTkFont(size=17, weight="bold"),
+        ).pack(pady=(0, 4))
 
         ctk.CTkLabel(
             inner,
@@ -91,11 +82,6 @@ class HomeView(ctk.CTkFrame):
         ).pack()
 
         tela = card["tela"]
-        comando = self._acao(tela)
+        comando = lambda t=tela: self._app.mostrar_tela(t)
         for widget in [frame, inner] + list(inner.winfo_children()):
             widget.bind("<Button-1>", lambda e, c=comando: c())
-
-    def _acao(self, tela: str):
-        if tela == "token":
-            return self._app.disparar_token_direto
-        return lambda: self._app.mostrar_tela(tela)

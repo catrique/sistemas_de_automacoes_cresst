@@ -4,7 +4,6 @@ import customtkinter as ctk
 CARDS_ESOCIAL = [
     {
         "tela":     "esocial_revalidar_pendentes",
-        "emoji":    "🔄",
         "titulo":   "Revalidar Pendentes",
         "descricao":"Busca e revalida todos\nos domínios com erro",
     },
@@ -17,9 +16,8 @@ class EsocialView(ctk.CTkFrame):
         self._app = app
         self.configure(fg_color="transparent")
 
-        # Cabeçalho
         header = ctk.CTkFrame(self, fg_color="transparent")
-        header.pack(fill="x", pady=(10, 0))
+        header.pack(fill="x", pady=(10, 0), padx=4)
 
         ctk.CTkButton(
             header, text="← Voltar",
@@ -33,11 +31,10 @@ class EsocialView(ctk.CTkFrame):
 
         ctk.CTkLabel(
             header,
-            text="📡  eSocial",
+            text="eSocial",
             font=ctk.CTkFont(size=22, weight="bold"),
         ).pack(side="left", padx=14)
 
-        # Grade de cards
         grid = ctk.CTkFrame(self, fg_color="transparent")
         grid.pack(expand=True, pady=24)
 
@@ -50,7 +47,7 @@ class EsocialView(ctk.CTkFrame):
         frame = ctk.CTkFrame(
             parent,
             corner_radius=16,
-            width=210, height=140,
+            width=210, height=130,
             cursor="hand2",
         )
         frame.grid(row=row, column=col, padx=14, pady=14, sticky="nsew")
@@ -59,10 +56,8 @@ class EsocialView(ctk.CTkFrame):
         inner = ctk.CTkFrame(frame, fg_color="transparent")
         inner.place(relx=0.5, rely=0.5, anchor="center")
 
-        ctk.CTkLabel(inner, text=card["emoji"],
-                     font=ctk.CTkFont(size=30)).pack()
         ctk.CTkLabel(inner, text=card["titulo"],
-                     font=ctk.CTkFont(size=15, weight="bold")).pack(pady=(4, 2))
+                     font=ctk.CTkFont(size=15, weight="bold")).pack(pady=(0, 4))
         ctk.CTkLabel(inner, text=card["descricao"],
                      font=ctk.CTkFont(size=11),
                      text_color="gray", justify="center").pack()

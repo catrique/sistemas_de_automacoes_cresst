@@ -5,6 +5,8 @@ import re
 import unicodedata
 import pandas as pd
 from datetime import datetime
+from services.logger_service import logger
+
 
 from services.utils.utils_service import gerar_txt_retorno_trabalho
 
@@ -18,7 +20,7 @@ except ImportError:
         sys.path.append(os.path.dirname(os.path.abspath(__file__)))
         from services.utils.leitor_pdf import extrair_dados_pdf
     except ImportError:
-        print("Erro critico: Nao foi possivel importar leitor_pdf.py")
+        logger.error("Erro critico: Nao foi possivel importar leitor_pdf.py",exc_info=True)
         sys.exit(1)
 
 DOWNLOADS_ROOT = os.path.join(BASE_DIR, "workspace", "downloads", "Asos") # Adicionado "Asos"
@@ -86,9 +88,9 @@ def selecionar_pasta_download():
         
     subdirs.sort(key=lambda x: os.path.getmtime(os.path.join(DOWNLOADS_ROOT, x)), reverse=True)
     
-    print("\nPastas encontradas:")
+    logger.info("\nPastas encontradas:")
     for i, folder in enumerate(subdirs):
-        print(f"{i + 1} - {folder}")
+        logger.info(f"{i + 1} - {folder}")
             
     return os.path.join(DOWNLOADS_ROOT, subdirs[0])
 
@@ -99,10 +101,10 @@ def executar(diretorio_especifico=None):
         pasta_alvo = selecionar_pasta_download()
     
     if not pasta_alvo:
-        print("Nenhuma pasta selecionada ou encontrada.")
+        logger.warning("Nenhuma pasta selecionada ou encontrada.")
         return
 
-    print(f"\n📂 [ORGANIZADOR] Processando pasta: {os.path.basename(pasta_alvo)}")
+    logger.info(f"\n📂 [ORGANIZADOR] Processando pasta: {os.path.basename(pasta_alvo)}")
 
     subpastas = {
         "Retorno ao Trabalho": os.path.join(pasta_alvo, "Retorno ao Trabalho"),
@@ -115,7 +117,7 @@ def executar(diretorio_especifico=None):
     }
 
     arquivos = [f for f in os.listdir(pasta_alvo) if f.lower().endswith('.pdf')]
-    print(f"📄 Total de arquivos PDF na raiz: {len(arquivos)}")
+    logger.info(f"📄 Total de arquivos PDF na raiz: {len(arquivos)}")
 
     count_sucesso = 0
     count_erro = 0
@@ -123,7 +125,7 @@ def executar(diretorio_especifico=None):
     
     for i, arquivo in enumerate(arquivos):
         caminho_origem = os.path.join(pasta_alvo, arquivo)
-        print(f"[{i+1}/{len(arquivos)}] {arquivo}...", end="")
+        logger.info(f"[{i+1}/{len(arquivos)}] {arquivo}...", extra={'continua': True})
 
         dados_arquivo = {col: "" for col in COLUNAS_RELATORIO}
         
@@ -133,7 +135,7 @@ def executar(diretorio_especifico=None):
             if not dados or not dados.get('Funcionario'):
                 destino = subpastas["Erro"]
                 count_erro += 1
-                print(" -> ❌ Ilegivel")
+                logger.info(" -> ❌ Ilegivel")
                 
                 dados_arquivo["Funcionário"] = f"ERRO LEITURA - {arquivo}"
                 if not os.path.exists(destino): os.makedirs(destino)
@@ -170,7 +172,7 @@ def executar(diretorio_especifico=None):
                 shutil.move(caminho_origem, caminho_final)
                 
                 count_sucesso += 1
-                print(f" -> ✅ {novo_nome_arquivo}")
+                logger.info(f" -> ✅ {novo_nome_arquivo}")
 
                 dados_arquivo["Funcionário"] = nome_bruto.upper()
                 dados_arquivo["CPF"] = dados.get('CPF', '')
@@ -187,7 +189,7 @@ def executar(diretorio_especifico=None):
             dados_para_excel.append(dados_arquivo)
 
         except Exception as e:
-            print(f" -> ❌ Erro: {e}")
+            logger.error(f" -> ❌ Erro: {e}", exc_info=True)
             count_erro += 1
             try:
                 if not os.path.exists(subpastas["Erro"]): os.makedirs(subpastas["Erro"])
@@ -201,29 +203,29 @@ def executar(diretorio_especifico=None):
             except: pass
 
     if dados_para_excel:
-        print("\n📊 Gerando Relatório_Completo.xlsx...")
+        logger.info("\n📊 Gerando Relatório_Completo.xlsx...")
         try:
             df = pd.DataFrame(dados_para_excel)
             df = df.reindex(columns=COLUNAS_RELATORIO)
             
             caminho_excel = os.path.join(pasta_alvo, "Relatorio_Completo.xlsx")
             df.to_excel(caminho_excel, index=False)
-            print(f"✅ Arquivo salvo em: {caminho_excel}")
+            logger.info(f"✅ Arquivo salvo em: {caminho_excel}")
             gerar_txt_retorno_trabalho(df, pasta_alvo)
         except Exception as e:
-            print(f"❌ Erro ao salvar Excel: {e}")
+            logger.error(f"❌ Erro ao salvar Excel: {e}", exc_info=True)
     else:
-        print("⚠️ Nenhum dado para gerar relatório.")
+        logger.info("⚠️ Nenhum dado para gerar relatório.")
 
-    print("\n" + "="*50)
-    print("RESUMO DA ORGANIZACAO")
-    print("="*50)
-    print(f"Arquivos processados/renomeados: {count_sucesso}")
+    logger.info("\n" + "="*50)
+    logger.info("RESUMO DA ORGANIZACAO")
+    logger.info("="*50)
+    logger.info(f"Arquivos processados/renomeados: {count_sucesso}")
     if count_erro > 0:
-        print(f"⚠️  ALERTA: {count_erro} arquivos com erro (ver pasta 'Erro').")
+        logger.info(f"⚠️  ALERTA: {count_erro} arquivos com erro (ver pasta 'Erro').")
     else:
-        print("Sucesso total! Nenhum erro encontrado.")
-    print("="*50)
+        logger.info("Sucesso total! Nenhum erro encontrado.")
+    logger.info("="*50)
 
 if __name__ == "__main__":
     executar()

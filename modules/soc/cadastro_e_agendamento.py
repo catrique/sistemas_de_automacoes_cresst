@@ -15,7 +15,6 @@ from services.soc.soc_cadastro_service import (
 )
 from services.soc.soc_validacao_service import validar_planilha
 
-# Colunas obrigatórias por fluxo
 _COLUNAS_CADASTRO     = ["Nome", "Data Nascimento", "Data Admissão", "CPF",
                           "Sexo", "Matrícula Anterior", "E-mail", "Cargo", "Lotação"]
 _COLUNAS_ADMISSIONAL  = ["Nome", "Matrícula Anterior", "E-mail", "Data Exame", "Hora Exame"]

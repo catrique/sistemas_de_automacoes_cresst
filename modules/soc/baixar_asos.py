@@ -52,5 +52,6 @@ def baixar_asos_por_intervalo_data(data_inicio: str, data_fim: str):
         organizar_asos.executar(diretorio_especifico=diretorio_final)
 
 
+
 if __name__ == "__main__":
     baixar_asos_por_intervalo_data("06/03/2026", "06/03/2026")

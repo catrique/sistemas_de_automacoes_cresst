@@ -11,8 +11,13 @@ class GuiHandler(logging.Handler):
 
     def emit(self, record):
         try:
-            msg = self.format(record)
-            self.log_func(msg)
+            continua = getattr(record, 'continua', False)
+            if continua:
+                msg = record.getMessage() 
+            else:
+                msg = self.format(record) 
+            self.log_func(msg, nova_linha=not continua)
+            
         except Exception:
             self.handleError(record)
 

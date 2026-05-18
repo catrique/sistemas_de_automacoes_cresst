@@ -11,7 +11,6 @@ class BaseRelatorioView(ctk.CTkFrame):
     """
 
     TITULO = ""
-    EMOJI  = ""
 
     def __init__(self, master, voltar, **kwargs):
         super().__init__(master, **kwargs)
@@ -19,7 +18,7 @@ class BaseRelatorioView(ctk.CTkFrame):
         self.configure(fg_color="transparent")
 
         header = ctk.CTkFrame(self, fg_color="transparent")
-        header.pack(fill="x", pady=(10, 0), padx=20)
+        header.pack(fill="x", pady=(10, 0), padx=4)
 
         ctk.CTkButton(
             header, text="← Voltar",
@@ -29,11 +28,11 @@ class BaseRelatorioView(ctk.CTkFrame):
             text_color=("gray20", "gray80"),
             hover_color=("gray85", "gray25"),
             command=voltar,
-        ).pack(side="left")
+        ).pack(side="left", padx=4)
 
         ctk.CTkLabel(
             header,
-            text=f"{self.EMOJI}  {self.TITULO}",
+            text=self.TITULO,
             font=ctk.CTkFont(size=22, weight="bold"),
         ).pack(side="left", padx=14)
 
@@ -45,7 +44,6 @@ class BaseRelatorioView(ctk.CTkFrame):
     def _construir(self):
         """Subclasses implementam aqui os widgets do card."""
         raise NotImplementedError
-
 
     def _rodar_em_thread(self, btn, texto_processando: str, fn, *args):
         btn.configure(state="disabled", text=texto_processando)

@@ -133,7 +133,6 @@ def validar_planilha(excel_path: str) -> pd.DataFrame | None:
         logger.error(f"Erro ao ler planilha: {e}")
         return None
 
-    # Padronizações imediatas
     if "E-mail" in df.columns:
         df["E-mail"] = df["E-mail"].astype(str).str.lower().str.strip().replace("nan", "")
         logger.info("E-mails convertidos para minúsculo.")

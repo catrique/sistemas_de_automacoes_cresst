@@ -71,7 +71,7 @@ class Endpoint(Enum):
     BETHA_PROFISSIONAL = ("betha", "api", "endpoints", "profissional")
     BETHA_ASO = ("betha", "api", "endpoints", "aso")
     BETHA_ANEXO = ("betha", "api", "endpoints", "anexo")
-    BETHA_ASO_FORMULARIO = ("betha", "api", "endpoints", "aso_formulario"),
+    BETHA_ASO_FORMULARIO = ("betha", "api", "endpoints", "aso_formulario")
     ESOCIAL_PENDENTES         = ("betha", "api", "esocial", "endpoints", "pendentes")
     ESOCIAL_HISTORICO_DOMINIO = ("betha", "api", "esocial", "endpoints", "historico_dominio")
     ESOCIAL_REVALIDAR         = ("betha", "api", "esocial", "endpoints", "revalidar")

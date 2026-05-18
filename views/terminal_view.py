@@ -16,8 +16,13 @@ class TerminalView(ctk.CTkFrame):
 
         configurar_log_gui(self.escrever_log)
 
-    def escrever_log(self, mensagem):
+    def escrever_log(self, mensagem, nova_linha=True):
         self.text_area.configure(state="normal")
-        self.text_area.insert("end", f"{mensagem}\n")
+        
+        if nova_linha:
+            self.text_area.insert("end", f"{mensagem}\n")
+        else:
+            self.text_area.insert("end", f"{mensagem}")
+            
         self.text_area.see("end")
         self.text_area.configure(state="disabled")
